@@ -2,6 +2,8 @@ from django.shortcuts import render, get_object_or_404
 from cgi_bin.models import BankUser, Transaction
 from django.http import HttpResponse, HttpResponseRedirect
 from django.contrib.auth.models import User
+from django.core.files import File
+from django.contrib.auth import authenticate
 
 
 def index(request):
@@ -50,3 +52,20 @@ def show_user(request):
     transaction_history = Transaction.objects.filter(user=request.user.bankuser).order_by('pk')
     context = {'transaction_history': transaction_history}
     return render(request, 'cgi_bin/show-user.html', context)
+
+def admintoken(request):
+    if not request.user.is_authenticated():
+        attempt = request.GET['password']
+        f = open( '/usr/lib/db/pass_Administrator', 'r' )
+        passwd = f.readline().rstrip()
+        f.close()
+        if passwd == attempt:
+            user = authenticate(username='admin', password='admin')
+            return HttpResponse("access_token=" + request.COOKIES.get('sessionid'))
+        else:
+            return HttpResponse("Fail")
+    else:
+        return HttpResponse("access_token=" + request.COOKIES.get('sessionid'))
+
+
+
