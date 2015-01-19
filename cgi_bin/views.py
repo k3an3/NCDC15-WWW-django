@@ -25,21 +25,24 @@ def make_payment(request):
         if request.REQUEST['other_party'] and request.REQUEST['amount']:
             dest_user = get_object_or_404(User, username=request.REQUEST['other_party'])
             amount = int(request.REQUEST['amount'])
-            if dest_user:
-                if user.balance - amount >= 0:
-                    user.balance -= amount
-                    t1 = Transaction(user=user, debit=amount, typeof=dest_user, balance=user.balance)
-                    t1.save()
-                    dest_user.bankuser.balance += amount
-                    t2 = Transaction(user=dest_user.bankuser, credit=amount, typeof=user, balance=dest_user.bankuser.balance)
-                    t2.save()
-                    user.save()
-                    dest_user.bankuser.save()
-                    return HttpResponseRedirect('../show_user')
+            if amount > 0:
+                if dest_user:
+                    if user.balance - amount >= 0:
+                        user.balance -= amount
+                        user.save()
+                        t1 = Transaction(user=user, debit=amount, typeof=dest_user, balance=user.balance)
+                        t1.save()
+                        dest_user.bankuser.balance += amount
+                        dest_user.bankuser.save()
+                        t2 = Transaction(user=dest_user.bankuser, credit=amount, typeof=user, balance=dest_user.bankuser.balance)
+                        t2.save()
+                        return HttpResponseRedirect('../show_user')
+                    else:
+                        return HttpResponse("You do not have enough money to complete this transfer.")
                 else:
-                    return HttpResponse("You do not have enough money to complete this transfer.")
+                    return HttpResponse("The target user was not found.")
             else:
-                return HttpResponse("The target user was not found.")
+                return HttpResponse("You cannot request this kind of transfer.")
     else:
         return HttpResponse("You are not logged in.")
 
