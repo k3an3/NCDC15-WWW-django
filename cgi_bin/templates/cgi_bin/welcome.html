@@ -28,28 +28,30 @@
         </a>
 
       <h3>
-        <img src="/new.gif">
+        {% load staticfiles %}
+        <img src="{% static 'cgi_bin/images/new.gif' %}">
         Automatic Online Transfers
-        <img src="/new.gif">
+        <img src="{% static 'cgi_bin/images/new.gif' %}">
         </h3>
 
       <p>Enter recepient name and amount below to sumbit a transfer</p>
       <p>
-        <form action="/cgi-bin/actions/make-payment" method=GET>
+        <form action="{% url 'cgi-bin:make_payment' %}" method="post">
+          {% csrf_token %}
           Recipient: <input type=text name=other_party>
           Amount: $<input type=text name=amount size=4>
           <input type=submit>
           </form>
         </p>
 
-      <a href="/cgi-bin/actions/logout">Log out</a>
+      <a href="{% url 'cgi-bin:logout' %}">Log out</a>
       <p>
-        Contact our Washington, DC <a href="/branches.html">branch</a>
+        Contact our Washington, DC <a href="{% url 'cgi-bin:branches' %}">branch</a>
         for web support. Tel: 1-866-672-4473
         </p>
       </center>
 
     <hr/>
-    <iframe width=100% scrolling=no frameborder=none src="/bottom.html"/>
+    <iframe width=100% scrolling=no frameborder=none src="{% url 'cgi-bin:bottom' %}"/>
     </body>
   </html>
