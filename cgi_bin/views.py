@@ -28,10 +28,14 @@ def make_payment(request):
             if dest_user:
                 if user.balance - amount >= 0:
                     user.balance -= amount
+                    t1 = Transaction(user=user, debit=amount, typeof=dest_user, balance=user.balance)
+                    t1.save()
                     dest_user.bankuser.balance += amount
+                    t2 = Transaction(user=dest_user.bankuser, credit=amount, typeof=user, balance=dest_user.bankuser.balance)
+                    t2.save()
                     user.save()
                     dest_user.bankuser.save()
-                    return HttpResponse(dest_user.bankuser.balance)
+                    return HttpResponseRedirect('../show_user')
                 else:
                     return HttpResponse("You do not have enough money to complete this transfer.")
             else:

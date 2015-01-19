@@ -34,7 +34,7 @@
         <img src="{% static 'cgi_bin/images/new.gif' %}">
         </h3>
 
-      <p>Enter recepient name and amount below to sumbit a transfer</p>
+      <p>Enter recipient name and amount below to submit a transfer</p>
       <p>
         <form action="{% url 'cgi-bin:make_payment' %}" method="post">
           {% csrf_token %}
