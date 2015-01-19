@@ -13,11 +13,11 @@ class Migration(migrations.Migration):
 
     operations = [
         migrations.CreateModel(
-            name='BankAccount',
+            name='BankUser',
             fields=[
                 ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
-                ('balance', models.DecimalField(default=0, max_digits=10, decimal_places=2)),
-                ('user', models.ForeignKey(to=settings.AUTH_USER_MODEL)),
+                ('balance', models.IntegerField(default=0)),
+                ('user', models.OneToOneField(to=settings.AUTH_USER_MODEL)),
             ],
             options={
             },
@@ -28,9 +28,10 @@ class Migration(migrations.Migration):
             fields=[
                 ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
                 ('typeof', models.CharField(default=b'', max_length=100)),
-                ('balance', models.DecimalField(default=0, max_digits=10, decimal_places=2)),
-                ('credit', models.DecimalField(default=0, max_digits=10, decimal_places=2)),
-                ('debit', models.DecimalField(default=0, max_digits=10, decimal_places=2)),
+                ('balance', models.IntegerField(default=0)),
+                ('credit', models.IntegerField(default=0)),
+                ('debit', models.IntegerField(default=0)),
+                ('user', models.ForeignKey(to='cgi_bin.BankUser')),
             ],
             options={
             },

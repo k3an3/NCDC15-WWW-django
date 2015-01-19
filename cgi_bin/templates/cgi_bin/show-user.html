@@ -1,0 +1,27 @@
+<html>
+<style type="text/css">table, td, th { border: 1px solid black;}</style>
+
+<body bgcolor=grey>
+<center>
+<h1>{{ user }}'s Account</h1>
+    <h3>Balance: {{ user.bankuser.balance }}</h3>
+<h2>Transaction History</h2>
+<table>
+    <tr>
+        <th>Transaction</th>
+        <th>Debit</th>
+        <th>Credit</th>
+        <th>Balance</th>
+    </tr>
+    {% for t in transaction_history %}
+    <tr>
+        <td>{{ t.typeof }}</td>
+        <td{% if t.debit > 0 %} bgcolor=salmon>{{ t.debit }}{% else %}>---{% endif %}</td>
+        <td{% if t.credit > 0 %} bgcolor=limegreen>{{ t.credit }}{% else %}>---{% endif %}</td>
+        <td bgcolor=lightsteelblue>{{ t.balance }}</td>
+    {% endfor %}
+</table>
+<a href="{% url 'cgi-bin:landing' %}">Back</a>
+</center><hr/>
+<iframe src="{% url 'cgi-bin:bottom2' %}" scrolling=no frameborder=none width=100%>
+<body><p>User not found!</p></body></html>

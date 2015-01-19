@@ -23,7 +23,7 @@
         Welcome {{ user }}! Use the links below to navigate.
         </h1>
 
-      <a href="/cgi-bin/show/show-user?user_name=&&USER_NAME&&">
+      <a href="{% url 'cgi-bin:show_user' %}">
         <h3>View Account</h3>
         </a>
 

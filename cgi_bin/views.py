@@ -36,8 +36,10 @@ def make_payment(request):
                     return HttpResponse("You do not have enough money to complete this transfer.")
             else:
                 return HttpResponse("The target user was not found.")
-        return HttpResponse("Losing")
-       # request.user.save()
-        #return HttpResponseRedirect(reverse('issues:detail', args=(issue.id,)))
     else:
         return HttpResponse("You are not logged in.")
+
+def show_user(request):
+    transaction_history = Transaction.objects.filter(user=request.user.bankuser).order_by('pk')[:100]
+    context = {'transaction_history': transaction_history}
+    return render(request, 'cgi_bin/show-user.html', context)
