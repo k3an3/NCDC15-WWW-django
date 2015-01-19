@@ -2,20 +2,20 @@
   <head>
     <title>CDC Investment Bank and Trust</title>
     </head>
-    <script> 
-    function doBlink() { 
-      // Blink, Blink, Blink... 
+    <script>
+    function doBlink() {
+      // Blink, Blink, Blink...
       var blink =  document.getElementsByTagName("blink");
-        for (var i=0; i < blink.length; i++) 
-          blink[i].style.visibility = blink[i].style.visibility == "" ? "hidden" : "" 
-    } 
+        for (var i=0; i < blink.length; i++)
+          blink[i].style.visibility = blink[i].style.visibility == "" ? "hidden" : ""
+    }
 
-    function startBlink() { 
+    function startBlink() {
 
     setInterval("doBlink()",1000);
     }
-    window.onload = startBlink; 
-    </script> 
+    window.onload = startBlink;
+    </script>
 
   <body bgcolor=grey>
     <center>
@@ -25,8 +25,8 @@
         Addr: 1600 Pennsylvania
         Avenue Northwest, Washington, DC 20500
         </p>
-
-      <h2><img src=new2.gif> Ames, IA Branch</h2>
+      {% load staticfiles %}
+        <h2><img src={% static 'cgi_bin/images/new2.gif' %}> Ames, IA Branch</h2>
       <p>
         Tel: 1-555-733-8326 <br/>
         Addr: 1212 Coover Hall, Ames, IA 50010
@@ -34,7 +34,7 @@
 
       </center>
 
-    <iframe width=100% scrolling=no frameborder=none src="/bottom.html"/>
+    <iframe width=100% scrolling=no frameborder=none src="{% url 'cgi-bin:bottom' %}"/>
 
     </body>
   </html>

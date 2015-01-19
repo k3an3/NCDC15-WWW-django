@@ -1,0 +1,44 @@
+<html>
+  <head>
+    <title>CDC Investment Bank and Trust</title>
+    </head>
+    <script>
+    function doBlink() {
+      // Blink, Blink, Blink...
+      var blink =  document.getElementsByTagName("blink");
+        for (var i=0; i < blink.length; i++)
+          blink[i].style.visibility = blink[i].style.visibility == "" ? "hidden" : ""
+    }
+
+    function startBlink() {
+
+    setInterval("doBlink()",1000);
+    }
+    window.onload = startBlink;
+    </script>
+
+  <body bgcolor=grey>
+    <center>
+      <h2>Log in with the form below</h2>
+      <form action="{% url 'cgi-bin:login' %}" method="post">
+        {% csrf_token %}
+        Name{{ form.username }}<br/>
+        Password{{ form.password }}
+        <input type="submit" value="login"/>
+        <input type="hidden" name="next" value="{{ next }}" />
+        </form>
+        {% if form.errors %}
+        <p style="color:yellow">Your username and password didn't match. Please try again.</p>
+        {% endif %}
+      <hr/>
+      <h4>
+        Don't have an account? Visit one of our
+        <a href="{% url 'cgi-bin:branches' %}">branches!</a>
+        </h4>
+
+      </center>
+
+    <hr/>
+    <iframe width=100% scrolling=no frameborder=none src="{% url 'cgi-bin:bottom2' %}"/>
+    </body>
+  </html>
