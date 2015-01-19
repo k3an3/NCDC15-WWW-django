@@ -47,6 +47,6 @@ def make_payment(request):
         return HttpResponse("You are not logged in.")
 
 def show_user(request):
-    transaction_history = Transaction.objects.filter(user=request.user.bankuser).order_by('pk')[:100]
+    transaction_history = Transaction.objects.filter(user=request.user.bankuser).order_by('pk')
     context = {'transaction_history': transaction_history}
     return render(request, 'cgi_bin/show-user.html', context)
