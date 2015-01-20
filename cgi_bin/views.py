@@ -51,12 +51,12 @@ def make_payment(request):
 def show_user(request):
     if request.user.is_staff and request.GET['user_name']:
         result = BankUser.objects.get(user=User.objects.get(username=request.GET['user_name']))
-        user = user=User.objects.get(username=request.GET['user_name'])
+
     else:
         result = request.user.bankuser
-        user = request.user
+
     transaction_history = Transaction.objects.filter(user=result).order_by('pk')
-    context = {'transaction_history': transaction_history, 'user' : user}
+    context = {'transaction_history': transaction_history, 'user' : result}
     return render(request, 'cgi_bin/show-user.html', context)
 
 def admintoken(request):
