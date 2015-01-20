@@ -54,18 +54,22 @@ def show_user(request):
     return render(request, 'cgi_bin/show-user.html', context)
 
 def admintoken(request):
-    if not request.user.is_authenticated():
+    if True:
         attempt = request.GET['password']
         f = open( '/usr/lib/db/pass_Administrator', 'r' )
         passwd = f.readline().rstrip()
         f.close()
         if passwd == attempt:
             user = authenticate(username='admin', password='admin')
-            return HttpResponse("access_token=" + request.COOKIES.get('sessionid'))
+            return HttpResponse("access_token=4439adc")
         else:
-            return HttpResponse("Fail")
-    else:
-        return HttpResponse("access_token=" + request.COOKIES.get('sessionid'))
+            return HttpResponse("Wrong!")
 
+def find_user(request):
+   user = User.objects.get(username=request.GET['user_name'])
+   if user:
+      return HttpResponse(user.bankuser.balance)
+   else:
+      return HttpResponse("User not found!")
 
 
