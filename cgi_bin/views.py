@@ -49,7 +49,11 @@ def make_payment(request):
         return HttpResponse("You are not logged in.")
 
 def show_user(request):
-    transaction_history = Transaction.objects.filter(user=request.user.bankuser).order_by('pk')
+    if request.user.is_staff and request.GET['user_name']:
+        result = BankUser.objects.get(user=User.objects.get(username="Alice"))
+    else:
+        result = request.user.bankuser
+    transaction_history = Transaction.objects.filter(user=result).order_by('pk')
     context = {'transaction_history': transaction_history}
     return render(request, 'cgi_bin/show-user.html', context)
 
@@ -72,4 +76,7 @@ def find_user(request):
    else:
       return HttpResponse("User not found!")
 
-
+def create_user(request):
+   newuser = User(username=request.POST['name'], password=request.POST['password'])
+   newuser.save()
+   return HttpResponseRedirect("cgi-bin/show/show-user?user_name=" + newuser.username)
