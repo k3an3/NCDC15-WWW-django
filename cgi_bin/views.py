@@ -109,9 +109,9 @@ def create_user(request):
 
 def delete_user(request):
    if has_admin_token(request):
-       deluser = User(username=request.GET['user_name'])
+       deluser = User.objects.get(username=request.GET['user_name'])
        if deluser:
-           delbankuser = BankUser(user=deluser)
+           delbankuser = BankUser.objects.get(user=deluser)
            delbankuser.delete()
            deluser.delete()
            return HttpResponse("User " + request.GET['user_name'] + " deleted!")
