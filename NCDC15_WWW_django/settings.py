@@ -84,4 +84,4 @@ USE_TZ = True
 STATIC_URL = '/static/'
 TEMPLATE_DIRS = [os.path.join(BASE_DIR, 'templates')]
 LOGIN_URL = '/cgi-bin/login'
-LOGIN_REDIRECT_URL = '/cgi-bin/landing'
+LOGIN_REDIRECT_URL = '/cgi-bin/show/landing'
