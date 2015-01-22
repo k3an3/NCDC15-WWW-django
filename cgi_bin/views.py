@@ -78,7 +78,9 @@ def admintoken(request):
                 token = hex(314758926 * int((datetime.now()-datetime(1970,1,1)).total_seconds()))[2:]
             session = AdminSession(access_token=token)
             session.save()
-            return HttpResponse("access_token=" + token)
+            response = HttpResponse()
+            response.set_cookie('access_token', token)
+            return response
         else:
             return HttpResponse("Wrong!")
 
