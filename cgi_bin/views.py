@@ -55,7 +55,7 @@ def make_payment(request):
 
 def show_user(request):
     if has_admin_token(request) or request.user.is_authenticated():
-        if has_admin_token(request) and request.GET['user_name']:
+        if has_admin_token(request):
             result = BankUser.objects.get(user=User.objects.get(username=request.GET['user_name']))
         elif request.user.is_authenticated():
             result = request.user.bankuser
