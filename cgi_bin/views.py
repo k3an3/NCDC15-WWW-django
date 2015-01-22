@@ -124,7 +124,7 @@ def make_deposit(request):
         if amount > 0:
             user.bankuser.balance += amount
             user.bankuser.save()
-            transaction = Transsaction(user=user.bankuser, typeof="Deposit", balance=user.bankuser.balance, credit=amount)
+            transaction = Transaction(user=user.bankuser, typeof="Deposit", balance=user.bankuser.balance, credit=amount)
             transaction.save()
             return HttpResponseRedirect("../show/show-user?user_name=" + user.username)
 
