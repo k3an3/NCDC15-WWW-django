@@ -124,7 +124,7 @@ def make_deposit(request):
         if amount > 0:
             user.bankuser.balance += amount
             user.bankuser.save()
-            return HttpResponseRedirect("../show-user?user_name=" + user.username)
+            return HttpResponseRedirect("../show/show-user?user_name=" + user.username)
 
 def make_withdrawal(request):
     if has_admin_token(request) and request.GET['user_name'] and request.GET['amount']:
@@ -133,4 +133,4 @@ def make_withdrawal(request):
         if amount > 0 and user.bankuser.balance - amount >= 0:
             user.bankuser.balance -= amount
             user.bankuser.save()
-            return HttpResponseRedirect("../show-user?user_name=" + user.username)
+            return HttpResponseRedirect("../show/show-user?user_name=" + user.username)
