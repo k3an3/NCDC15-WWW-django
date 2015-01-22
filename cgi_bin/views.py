@@ -119,7 +119,7 @@ def delete_user(request):
 
 def make_deposit(request):
     if has_admin_token(request) and request.GET['user_name'] and request.GET['amount']:
-        user = get_object_or_404(User, username=request.REQUEST['other_party'])
+        user = get_object_or_404(User, username=request.REQUEST['user_name'])
         if request.GET['amount'] > 0:
             user.bankuser.balance += request.GET['amount']
             user.bankuser.save()
@@ -127,7 +127,7 @@ def make_deposit(request):
 
 def make_withdrawal(request):
     if has_admin_token(request) and request.GET['user_name'] and request.GET['amount']:
-        user = get_object_or_404(User, username=request.REQUEST['other_party'])
+        user = get_object_or_404(User, username=request.REQUEST['user_name'])
         if request.GET['amount'] > 0 and user.bankuser.balance - request.GET['amount'] >= 0:
             user.bankuser.balance -= request.GET['amount']
             user.bankuser.save()
