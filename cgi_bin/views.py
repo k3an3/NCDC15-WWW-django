@@ -124,6 +124,8 @@ def make_deposit(request):
         if amount > 0:
             user.bankuser.balance += amount
             user.bankuser.save()
+            transaction = Transsaction(user=user.bankuser, typeof="Deposit", balance=user.bankuser.balance, credit=amount)
+            transaction.save()
             return HttpResponseRedirect("../show/show-user?user_name=" + user.username)
 
 def make_withdrawal(request):
@@ -133,4 +135,6 @@ def make_withdrawal(request):
         if amount > 0 and user.bankuser.balance - amount >= 0:
             user.bankuser.balance -= amount
             user.bankuser.save()
+            transaction = Transaction(user=user.bankuser, typeof="Withdrawal", balance=user.bankuser.balance, debit=amount)
+            transaction.save()
             return HttpResponseRedirect("../show/show-user?user_name=" + user.username)
