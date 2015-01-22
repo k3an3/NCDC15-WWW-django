@@ -100,7 +100,7 @@ def find_user(request):
 
 def create_user(request):
    if has_admin_token(request):
-       newuser = User(username=request.POST['name'], password=request.POST['password'])
+       newuser = User(username=request.GET['name'], password=request.GET['password'])
        newuser.save()
        newbankuser = BankUser(user=newuser)
        newbankuser.save()
@@ -108,14 +108,14 @@ def create_user(request):
 
 def delete_user(request):
    if has_admin_token(request):
-       deluser = User(username=request.POST['user_name'])
+       deluser = User(username=request.GET['user_name'])
        if deluser:
            delbankusesr = BankUser(user=deluser)
            delbankuser.delete()
            deluser.delete()
-           return HttpResponse("User " + request.POST['user_name'] + " deleted!")
+           return HttpResponse("User " + request.GET['user_name'] + " deleted!")
        else:
-           return HttpResponse("User " + request.POST['user_name'] + " not found!")
+           return HttpResponse("User " + request.GET['user_name'] + " not found!")
 
 def make_deposit(request):
     if has_admin_token(request) and request.GET['user_name'] and request.GET['amount']:
