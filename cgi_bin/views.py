@@ -100,11 +100,12 @@ def find_user(request):
 
 def create_user(request):
    if has_admin_token(request):
-       newuser = User(username=request.GET['name'], password=request.GET['password'])
+       newuser = User(username=request.GET['name'])
+       newuser.set_password(request.GET['password'])
        newuser.save()
        newbankuser = BankUser(user=newuser)
        newbankuser.save()
-       return HttpResponseRedirect("cgi-bin/show/show-user?user_name=" + newuser.username)
+       return HttpResponseRedirect("../show/show-user?user_name=" + newuser.username)
 
 def delete_user(request):
    if has_admin_token(request):
