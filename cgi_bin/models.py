@@ -16,3 +16,8 @@ class Transaction(models.Model):
     credit = models.IntegerField(default=0)
     debit = models.IntegerField(default=0)
 
+class AdminSession(models.Model):
+    def __str__(self):
+        return self.access_token
+    access_token = models.CharField(default='', max_length=50)
+    date = models.TimeField(auto_now=True)
