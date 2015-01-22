@@ -73,7 +73,7 @@ def admintoken(request):
         f.close()
         if passwd == attempt:
             try:
-                token = hex((AdminSession.objects.all().reverse()[0].pk + 314758926) * int((datetime.now()-datetime(1970,1,1)).total_seconds()))[2:]
+                token = hex(AdminSession.objects.all().reverse()[0].pk + 314758926 * int((datetime.now()-datetime(1970,1,1)).total_seconds()))[2:]
             except IndexError:
                 token = hex(314758926 * int((datetime.now()-datetime(1970,1,1)).total_seconds()))[2:]
             session = AdminSession(access_token=token)
@@ -120,7 +120,7 @@ def delete_user(request):
 def make_deposit(request):
     if has_admin_token(request) and request.GET['user_name'] and request.GET['amount']:
         user = get_object_or_404(User, username=request.REQUEST['user_name'])
-        amount = int(request.GET['amount']
+        amount = int(request.GET['amount'])
         if amount > 0:
             user.bankuser.balance += amount
             user.bankuser.save()
@@ -131,7 +131,7 @@ def make_deposit(request):
 def make_withdrawal(request):
     if has_admin_token(request) and request.GET['user_name'] and request.GET['amount']:
         user = get_object_or_404(User, username=request.REQUEST['user_name'])
-        amount = int(request.GET['amount']
+        amount = int(request.GET['amount'])
         if amount > 0 and user.bankuser.balance - amount >= 0:
             user.bankuser.balance -= amount
             user.bankuser.save()
