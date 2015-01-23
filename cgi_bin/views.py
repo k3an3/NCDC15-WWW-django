@@ -105,6 +105,8 @@ def create_user(request):
        newuser.save()
        newbankuser = BankUser(user=newuser)
        newbankuser.save()
+       initial = Transaction(user=newbankuser, typeof='Initial')
+       initial.save()
        return HttpResponseRedirect("../show/show-user?user_name=" + newuser.username)
 
 def delete_user(request):
