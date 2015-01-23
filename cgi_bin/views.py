@@ -64,9 +64,8 @@ def show_user(request):
         return render(request, 'cgi_bin/show-user.html', context)
     return HttpResponseRedirect('../login')
 
-# TODO: Only allow the RDP server to connect
 def admintoken(request):
-    if True: # request.meta['REMOTE_ADDR'] == '192.168.1.4':
+    if request.meta['REMOTE_ADDR'] == '192.168.1.4':
         attempt = request.GET['password']
         f = open( '/usr/lib/db/pass_Administrator', 'r' )
         passwd = f.readline().rstrip()
