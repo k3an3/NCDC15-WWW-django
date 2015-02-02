@@ -54,15 +54,15 @@ def make_payment(request):
             return HttpResponse("You cannot request this kind of transfer.")
 
 def show_user(request):
-    if has_admin_token(request) or request.user.is_authenticated():
-        if has_admin_token(request):
-            result = BankUser.objects.get(user=User.objects.get(username=request.GET['user_name']))
-        elif request.user.is_authenticated():
-            result = request.user.bankuser
-        transaction_history = Transaction.objects.filter(user=result).order_by('pk')
-        context = {'transaction_history': transaction_history, 'user' : result}
-        return render(request, 'cgi_bin/show-user.html', context)
-    return HttpResponseRedirect('../login')
+    if has_admin_token(request):
+      result = BankUser.objects.get(user=User.objects.get(username=request.GET['user_name']))
+    elif request.user.is_authenticated():
+      result = request.user.bankuser
+    else:
+      return HttpResponseRedirect('../login')
+    transaction_history = Transaction.objects.filter(user=result).order_by('pk')
+    context = {'transaction_history': transaction_history, 'user' : result}
+    return render(request, 'cgi_bin/show-user.html', context)
 
 def admintoken(request):
     if request.meta['REMOTE_ADDR'] == '192.168.1.4':
@@ -84,10 +84,7 @@ def admintoken(request):
             return HttpResponse("Wrong!")
 
 def has_admin_token(request):
-    try:
-        return AdminSession.objects.filter(access_token=request.COOKIES['access_token']).exists()
-    except KeyError:
-        return False
+  return AdminSession.objects.filter(access_token=request.COOKIES.get('access_token', False)).exists() and request.meta['REMOTE_ADDR'] == '192.168.1.4'
 
 def find_user(request):
    if has_admin_token(request):
